@@ -1,0 +1,37 @@
+Gerenciador de Atividades
+
+Requisitos Funcionais:
+
+. Sistema Cliente x Servidor
+
+Serviço de aplicação
+Serviço de banco de dados
+
+Usuários:
+. Cadastro
+. Autenticação
+
+Atividades:
+. Cadastro
+. Listagem
+		Concluídas
+		Pendentes
+		A vencer
+. Atualização
+. Exclusão
+
+Usuário
+. Nome
+. Usuário
+. Email
+
+Atividade
+. Título
+. Descrição
+. Data e hora
+. Conclusão
+. URL
+
+Alarme
+. Habilitar
+. Desabilitar
