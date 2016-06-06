@@ -20,6 +20,8 @@ Atividades:
 . Atualização
 . Exclusão
 
+Tipos Abstratos:
+
 Usuário
 . Nome
 . Usuário
