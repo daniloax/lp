@@ -33,7 +33,7 @@ class Gera:
 		
 		# userType = 1;
 		
-		# while True:
+		while True:
 			
 			self.screen.displayMessage("\nMenu option")
 			self.screen.displayMessage("[1] Sign in")
@@ -42,8 +42,8 @@ class Gera:
 			self.screen.displayMessage( "? " )
 			userType = self.keypad.getInput()
 			
-			# if userType < 1 or userType > 3:
-				# break
+			if userType < 1 or userType > 3:
+				break
 				
 			return userType
 		
@@ -52,7 +52,7 @@ class Gera:
 		menuOption = self.displayMenuOption()
 		
 		if menuOption == 1:
-			self.screen.displayMessage("\nSIGN_IN")
+			geraDataBase.readAccounts()
 
 		elif menuOption == 2:
 			self.screen.displayMessage("\nSIGN_UP")

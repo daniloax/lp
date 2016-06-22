@@ -7,4 +7,12 @@
 
 """
 
+from account import Account
+from readTextFile import ReadTextFile
+
 class DataBase:
+	def __init__(self):
+		self.readTextFile = ReadTextFile
+		
+	def readAccounts(self, fileName):
+		readTextFile.readAccounts(fileName)
