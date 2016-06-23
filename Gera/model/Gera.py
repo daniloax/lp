@@ -6,8 +6,13 @@
 	author: daniloax
 """
 
-import sys
-from MenuOption import MenuOption
+import os,sys,inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir)
+
+from GeraDataBase import GeraDataBase
 from Keypad import Keypad
 from Screen import Screen
 
@@ -17,6 +22,7 @@ class Gera:
 		
 		self.userAuthenticated = False
 		self.currentAccountNumber = 0
+		self.geraDataBase = GeraDataBase()
 		self.keypad = Keypad()
 		self.screen = Screen()
 	
@@ -30,8 +36,6 @@ class Gera:
 			currentAccountNumber = 0;
 			
 	def displayMenuOption(self):
-		
-		# userType = 1;
 		
 		while True:
 			
@@ -52,7 +56,7 @@ class Gera:
 		menuOption = self.displayMenuOption()
 		
 		if menuOption == 1:
-			geraDataBase.readAccounts()
+			self.geraDataBase.readAccounts()
 
 		elif menuOption == 2:
 			self.screen.displayMessage("\nSIGN_UP")

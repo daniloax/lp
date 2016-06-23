@@ -6,6 +6,14 @@
 	author: daniloax
 
 """
+import os,sys,inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0,parentdir)
+
+import model.Account
+import model.User
 
 class ReadTextFile:
 	def __init__(self):
@@ -14,9 +22,7 @@ class ReadTextFile:
 	def openFile(self, fileName):
 		self.fileInput = open(fileName, 'r')
 		
-	def readFile(self):
-		self.fileInput.read()
+	def readAccounts(self, fileName, accounts):
+		record = Account();
+		self.openFile(fileName)
 		
-readTextFile = ReadTextFile()
-readTextFile.openFile("account.txt")
-readTextFile.readLine()
