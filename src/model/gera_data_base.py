@@ -15,26 +15,26 @@ class gera_data_base:
 		self.data_base = data_base()
 		self.accounts = []
 		
-	def get_user(self, account):
-		return self.get_account(account).get_name()
+	def get_user(self, identifier):
+		return self.get_account(identifier).get_user()
 	
-	def get_account(self, account):
+	def get_account(self, identifier):
 		for current_account in self.accounts:
-			if current_account == account:
+			if (current_account.get_identifier() == identifier):
 				return current_account
 		return None
 		
 	def get_accounts(self):
 		return self.accounts
 		
-	def authenticate_user(self, account, password):
-		user_account = self.get_account(account)
-		if user_account != None:
-			return user_account.validate_password(password)
+	def authenticate_user(self, identifier, password):
+		account = self.get_account(identifier)
+		if account is not None:
+			return account.validate_password(password)
 		else:
 			return False
 		
 	def read_accounts(self):
-		self.data_base.read_accounts("account.txt", self.accounts)
+		self.data_base.read_accounts("../../account.txt", self.accounts)
 		
 		
