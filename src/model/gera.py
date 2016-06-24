@@ -31,7 +31,7 @@ class gera:
 			user_authenticated = False;
 			current_account_number = 0;
 			
-	def displayMenuOption(self):
+	def display_menu_option(self):
 		
 		while True:
 			
