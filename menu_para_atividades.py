@@ -11,126 +11,143 @@ class Atividade:
         self.conclusao = conclusao
         self.numero=numero
 
-def read():
+def read(identification):
             conn = sqlite3.connect('geraDB.db')
             cursor = conn.cursor()
             #lendo os dados
             cursor.execute("""
-            SELECT * FROM atividades;
-            """)
+            SELECT id,titulo,descricao,data,hora,conclusao FROM atividades
+            WHERE idusuario=?
+            """, (identification,))
             for linha in cursor.fetchall():
                 print(linha)
             conn.close()    
 
-def switch(logado):
+def switch(logado,identification):
 	if logado == 2:
-	    while True:
-	        print("______MENU______")
-	        print("[1] = criar atividade")
-	        print("[2] = atualizar atividade")
-	        print("[3] = apagar atividade")
-	        opcao = input("[4] = Sair do menu\n")
-	        if opcao == '1':
-	            ##Troque loguin pela variável usada para guardar o nome
-	            usuario = 'loguin'
-	            titulo = input("digite o título da atividade: ")
-	            print(titulo)
-	            descricao = input("digite a descrição da atividade: ")
-	            print(descricao)
-	            data = input("digite a data da atividade: ")
-	            print(data)
-	            hora = input("digite a hora da atividade: ")
-	            print(hora)
-	            conclusao = input("digite a conclusao da atividade:")
-	            print(conclusao)
-	            numero = input("digite uma ID da atividade:")
-	            print(numero)
-	            lista = [(usuario, titulo, descricao, data, hora, conclusao,numero)]
-	            print(lista)
-	            ##INSERIR NO REGISTRO
-	            conn = sqlite3.connect('geraDB.db')
-	            cursor = conn.cursor()
-	            cursor.executemany("""
-				INSERT INTO atividades (usuario,titulo,descricao,data,hora,conclusao,numero)
-				VALUES (?,?,?,?,?,?,?)
+		while True:
+			print("______MENU______")
+			print("[1] = Criar atividade")
+			print("[2] = Editar atividade")
+			print("[3] = Apagar atividade")
+			opcao = input("[4] = Sair do menu\n")
+			if opcao == '1':
+				titulo = input("Digite o título da atividade: ")
+				descricao = input("Digite a descrição da atividade: ")
+				data = input("Digite a data da atividade: ")
+				hora = input("Digite a hora da atividade: ")
+				conclusao = input("Digite a conclusao da atividade:")
+
+				lista = [(identification, titulo, descricao, data, hora, conclusao)]
+
+				conn = sqlite3.connect('geraDB.db')
+				cursor = conn.cursor()
+				cursor.executemany("""
+				INSERT INTO atividades (idusuario,titulo,descricao,data,hora,conclusao)
+				VALUES (?,?,?,?,?,?)
 				""", lista)
 
-	            conn.commit()
+				conn.commit()
 
-	            print('Dados inseridos com sucesso.')
+				print('\nDados inseridos com sucesso.\n')
 
-	            conn.close()
+				conn.close()
 
-	        elif opcao == '2':
-	            read()
-	            ##Troque loguin pela variável usada para guardar o nome
-	            usuario='loguin'
-	            print("Atualizar atividade")
-	            numero = input("digite a ID da atividade a ser atualizada:")
-	            print(numero)
-	            titulo = input("digite o novo título da atividade: ")
-	            print(titulo)
-	            descricao = input("digite a nova descrição da atividade: ")
-	            print(descricao)
-	            data = input("digite a nova data da atividade: ")
-	            print(data)
-	            hora = input("digite a nova hora da atividade: ")
-	            print(hora)
-	            conclusao = input("digite a nova conclusao da atividade:")
-	            print(conclusao)
-	            lista = [(usuario, titulo, descricao, data, hora, conclusao,numero)]
-	            print(lista)
+			elif opcao == '2':
+				read(identification)
+				print("\n__Atualizando atividade__")
+				numero = input("Digite o número da atividade que deseja editar: ")
 
-	            ##ATUALIZAR REGISTRO
-	            conn = sqlite3.connect('geraDB.db')
-	            cursor = conn.cursor()
-	            cursor.execute("""
 
-	            UPDATE geraDB
+				conn = sqlite3.connect('geraDB.db', timeout=10)
+				cursor = conn.cursor()
+
+				cursor.execute("""
+				SELECT id,idusuario FROM atividades WHERE id=? AND idusuario=?"""
+				, (numero,identification))
+
+				j = 0
+				for test in cursor.fetchall():
+					print ("\nAtividade encontrada!\n")
+					j = 1
+				if j == 0:
+					print ("\nNúmero da atividade não encontrado\n")
+					switch(2,identification)
+				else:
+					titulo = input("Digite o novo título da atividade: ")
+					descricao = input("Digite a nova descrição da atividade: ")
+					data = input("Digite a nova data da atividade: ")
+					hora = input("Digite a nova hora da atividade: ")
+					conclusao = input("Digite a nova conclusao da atividade: ")
+					lista = [(numero, titulo, descricao, data, hora, conclusao)]
+					print("\n")
+					print(lista)
+
+					##ATUALIZAR REGISTRO
+					conn = sqlite3.connect('geraDB.db')
+					cursor = conn.cursor()
+
+
+
+
+
+					cursor.execute("""
+					
+					UPDATE atividades
+					SET titulo=?,descricao=?,data=?,hora=?,conclusao=?
+					WHERE id=?
+					""",(titulo,descricao,data,hora,conclusao,numero))
+
+					conn.commit()
+					print('Dados atualizados com sucesso.\n')
+				conn.close()
 	            
-	            SET usuario=?,titulo=?,descricao=?,data=?,hora=?,conclusao=?
-	            WHERE numero=?
-	            """,(usuario,titulo,descricao,data,hora,conclusao,numero))
-	            
-	            conn.commit()
-	            print('Dados atualizados com sucesso.')
-	            conn.close()
-	            
-	        elif opcao == '3':
-	            read()
+			elif opcao == '3':
+				read(identification)
 	        
-	            print("apague atividade")
-	            numero = input("digite a ID da atividade a ser apagada:")
-	            print(numero)
-	            ##EXCLUIR REGISTRO
-	            conn = sqlite3.connect('geraDB.db')
-	            cursor = conn.cursor()
+				print("\n__Apagando atividade__")
+				numero = input("Digite a ID da atividade a ser apagada: ")
+				print(numero)
+				##EXCLUIR REGISTRO
+				conn = sqlite3.connect('geraDB.db')
+				cursor = conn.cursor()
 
-	            cursor.execute("""
-	            DELETE FROM geraDB
-	            WHERE numero = ?
-	            """, (numero,))
 
-	            conn.commit()
-	            print('Registro excluido com sucesso.')
+				cursor.execute("""
+				SELECT id,idusuario FROM atividades WHERE id=? AND idusuario=?"""
+				, (numero,identification))
 
-	            conn.close()
-	            
-	        elif opcao == '4':
-	            print("Saiu com sucesso!\n")
-	            break
+				j = 0
+				for test in cursor.fetchall():
+					print ("\nAtividade encontrada!")
+					j = 1
+				if j == 0:
+					print ("\nNúmero da atividade não encontrado\n")
+					switch(2,identification)
+				else:
+					cursor.execute("""
+					DELETE FROM atividades
+					WHERE id = ?
+					""", (numero,))
 
-	        else:
-	            print("Insira uma opcao correta!\n")
-	else:
-		print("Insira uma opcao!\n")
+					conn.commit()
+					print('Registro excluido com sucesso.\n')
 
-switch(0)
+					conn.close()
+
+			elif opcao == '4':
+				print("Saiu com sucesso!\n")
+				login()
+
+			else:
+				print("Insira uma opcao correta!\n")
+				switch(0,identification)
+switch(0,0)
 
 def login():
 	i = 0
 	while True:
-		print("[1] = cadastro de usuario")
+		print("\n[1] = cadastro de usuario")
 		print("[2] = logar no sistema")
 		value = input("[3] = Sair\n")
 		if value == '1':
@@ -174,7 +191,6 @@ def login():
 				if (email,) == test:
 					print ("\nUsuario verificado!")
 					i = 1
-
 			if i == 0:
 				print ("\nUsuario nao cadastrado!\n")
 				login()
@@ -188,7 +204,13 @@ def login():
 						print ("Seja bem vindo!\n")
 						i = 2
 
-						switch(i)
+						cursor.execute("""
+						SELECT id FROM usuarios WHERE email=? AND senha=?"""
+						, (email,password))
+
+						for test in cursor.fetchall():
+							(identify,) = test
+						switch(i,identify)
 						login()
 				if i != 2:
 					print("Senha incorreta!\n")
