@@ -20,3 +20,11 @@ CREATE TABLE alarm (
 	reminder INTEGER NOT NULL,
 	fk_activity_id INTEGER NOT NULL,
 	FOREIGN KEY(fk_activity_id) REFERENCES activity(id));
+
+INSERT INTO user (name, email, password)
+VALUES 
+("Geraldino", geraldino@unb.br, 123),
+("Orlando", "orlando@unb.br", 123),
+("Danilo Fukuda", "danilo_fukuda@unb.br", 123),
+("Felipe", "felipe@unb.br", 123),
+("Danilo Alves", "danilo_alves@unb.br", 123)
