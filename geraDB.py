@@ -1,20 +1,20 @@
 import sqlite3
-conexão = sqlite3.connect("geraDB.db")
-cursor = conexão.cursor()
+conexao = sqlite3.connect("geraDB.db")
+cursor = conexao.cursor()
 cursor.execute('''
-    create table usuarios(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    nome TEXT UNIQUE, senha TEXT)
+    create table user(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE, password TEXT)
     ''')
 cursor.execute('''
-    insert into usuarios (nome, senha) values(?, ?)
+    insert into user (name, password) values(?, ?)
     ''', ("Orlando", "ojfs1958"))
 cursor.execute('''
-    create table atividades (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    nome TEXT, atividade TEXT, data DATE)
+    create table activity (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT, description TEXT, date DATE)
     ''')
 cursor.execute('''
-    insert into atividades (nome,atividade, data) values(?,?,?)
-    ''', ("Orlando","Teste de uso","2016-07-02 18:21"))
-conexão.commit()
+    insert into activity (title,description, date) values(?,?,?)
+    ''', ("teste","Teste de uso","2016-07-02 18:21"))
+conexao.commit()
 cursor.close()
-conexão.close()
+conexao.close()

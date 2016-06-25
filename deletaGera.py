@@ -1,25 +1,25 @@
 import sqlite3
-conexão = sqlite3.connect("geraDB.db")
-cursor = conexão.cursor()
+conexao = sqlite3.connect("geraDB.db")
+cursor = conexao.cursor()
 
-#deletar usuário
+#deletar usuario
 
 cursor.execute('''
     delete from usuarios where nome=?
     ''',("Felipe",))
-conexão.commit()
+conexao.commit()
 
-#deletar as atividades do usuário
+#deletar as atividades do usuario
 cursor.execute('''
     delete from atividades where nome=?
     ''',("Felipe",))
-conexão.commit()
+conexao.commit()
 
-#deletar uma determinada atividade do usuário
+#deletar uma determinada atividade do usuario
 cursor.execute('''
     delete from atividades where nome=? and data=?
     ''',("Felipe","2016-07-02 18:22"))
-conexão.commit()
+conexao.commit()
 
 cursor.execute('''
     select * from usuarios,
@@ -27,7 +27,7 @@ cursor.execute('''
     ''')
 resultado=cursor.fetchall()
 for registro in resultado:
-    print("Usuário Id: %d\nNome: %s\nSenha: %s\nAtividade Id: %d\nUsuário: %s\nAtividade: %s\nData: %s" % (registro))
+    print("usuario Id: %d\nNome: %s\nSenha: %s\nAtividade Id: %d\nusuario: %s\nAtividade: %s\nData: %s" % (registro))
     print(registro)
 cursor.close()
-conexão.close()
+conexao.close()
