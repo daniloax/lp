@@ -9,6 +9,7 @@
 import sys
 
 from model.account import account
+from model.activity import activity
 from model.gera_data_base import gera_data_base
 from model.keypad import keypad
 from model.user import user
@@ -127,7 +128,29 @@ class gera:
 		new_user_id = self.gera_data_base.create_account(new_account)
 		
 		self.screen.display_message("\nAccount registered successfully!")
-		self.screen.display_message("\nUse your identifier number \'{}\' to sign in!".format(new_user_id))
+		self.screen.display_message("\nUse your account identifier \'{}\' to sign in!".format(new_user_id))
+		
+	"""	
+	 " cadastra uma nova atividade no banco de dados
+	 "
+	"""
+	def create_activity(self):
+		
+		self.screen.display_message("\nPlease enter your activity title:")
+		title = unicode(self.keypad.get_input())
+		self.screen.display_message("\nEnter your activity description:")
+		description = unicode(self.keypad.get_input())
+		self.screen.display_message("\nEnter your activity date:")
+		date = unicode(self.keypad.get_input())
+		self.screen.display_message("\nEnter your activity hour:")
+		hour = unicode(self.keypad.get_input())
+		
+		new_activity = activity(None, title, description, date, hour, self.current_account_identifier)
+		
+		new_activity_id = self.gera_data_base.create_activity(new_activity)
+		
+		self.screen.display_message("\nActivity created successfully!")
+		self.screen.display_message("\nUse your activity identifier \'{}\' to manage it!".format(new_activity_id))
 	
 	"""	
 	 " exibe o menu principal e retorna uma selecao de entrada
@@ -148,6 +171,30 @@ class gera:
 				break
 			
 			return user_type
+		
+	"""	
+	 " exibe o menu de atividades e retorna uma selecao de entrada
+	 "
+	"""
+	def display_activity_menu(self):
+		
+		while True:
+			
+			self.screen.display_message("\nActivity menu:")
+			self.screen.display_message("[1] Activity create")
+			self.screen.display_message("[2] Activity view")
+			self.screen.display_message("[3] Activity update")
+			self.screen.display_message("[4] Activity close")
+			self.screen.display_message("[5] Activities list")
+			self.screen.display_message("[6] Exit\n")
+			self.screen.display_message("Enter a choice: ")
+			
+			user_type = int(self.keypad.get_input())
+			
+			if user_type < 1 or user_type > 6:
+				break
+			
+			return user_type
 
 		
 	"""	
@@ -163,8 +210,39 @@ class gera:
 			main_menu_selection = self.display_main_menu() 
 			
 			if main_menu_selection == 1:
-				self.screen.display_message("\nMenu selection [{}]".format(main_menu_selection))
+				self.perform_activity_transactions()
 	
 			elif main_menu_selection == 2:
 				self.screen.display_message("\nGoodbye {}!".format(self.gera_data_base.get_user(self.current_account_identifier).get_name()))
 				user_exited = True
+				
+	"""	
+	 " executa o menu de atividades e realiza transacoes
+	 "
+	"""
+	def perform_activity_transactions(self):
+		
+		menu_returned = False
+		
+		while (not menu_returned):
+	
+			activity_menu_selection = self.display_activity_menu()
+			
+			if activity_menu_selection == 1:
+				self.create_activity()
+				
+			elif activity_menu_selection == 2:
+				self.view_activity()
+				
+			elif activity_menu_selection == 3:
+				self.update_activity()
+				
+			elif activity_menu_selection == 4:
+				self.close_activity()
+				
+			elif activity_menu_selection == 5:
+				self.list_activities()
+				
+			elif activity_menu_selection == 6:
+				self.screen.display_message("\nReturning to main menu...")
+				menu_returned = True

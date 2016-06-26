@@ -21,3 +21,6 @@ class data_base:
 	def create_account(self, file_name, account):
 		return self.read_data_base.create_account(file_name, account)
 	
+	def create_activity(self, file_name, activity):
+		return self.read_data_base.create_activity(file_name, activity)
+	

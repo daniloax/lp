@@ -36,10 +36,16 @@ class gera_data_base:
 		else:
 			return False
 		
-	def read_accounts(self):
-		self.data_base.read_accounts(self.DATA_BASE[1], self.accounts)
-		
 	def create_account(self, account):
 		return self.data_base.create_account(self.DATA_BASE[1], account)
+	
+	def create_activity(self, activity):
+		return self.data_base.create_activity(self.DATA_BASE[1], activity)
+	
+	def read_accounts(self):
+		self.data_base.read_accounts(self.DATA_BASE[1], self.accounts)
+	
+	
+		
 		
 		

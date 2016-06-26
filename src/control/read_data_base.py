@@ -13,6 +13,7 @@ class read_data_base:
     
     QUERY_USER_SELECT = "SELECT * FROM user"
     QUERY_USER_INSERT = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)"
+    QUERY_ACTIVITY_INSERT = "INSERT INTO activity (title, description, date, hour, fk_user_id) VALUES (?, ?, ?, ?, ?)"
 
     def __init__(self):
         self.conn = None
@@ -31,6 +32,22 @@ class read_data_base:
                        account.get_user().get_name(),
                        account.get_user().get_email(),
                        account.get_password()))
+        
+        self.conn.commit()
+        self.close_connection()
+        
+        return cursor.lastrowid
+    
+    def create_activity(self, data_base, activity):
+        
+        self.open_connection(data_base)
+        cursor = self.conn.cursor()
+        cursor.execute(self.QUERY_ACTIVITY_INSERT,(
+                       activity.get_title(),
+                       activity.get_description(),
+                       activity.get_date(),
+                       activity.get_hour(),
+                       activity.get_fk_user_id()))
         
         self.conn.commit()
         self.close_connection()
