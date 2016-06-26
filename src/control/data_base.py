@@ -18,6 +18,9 @@ class data_base:
 	def read_accounts(self, file_name, accounts):
 		self.read_data_base.read_accounts(file_name, accounts)
 		
+	def read_activities(self, file_name, account_identifier, activities):
+		self.read_data_base.read_activities(file_name, account_identifier, activities)
+		
 	def create_account(self, file_name, account):
 		return self.read_data_base.create_account(file_name, account)
 	

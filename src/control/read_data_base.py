@@ -7,6 +7,7 @@ Created on 25 de jun de 2016
 import sqlite3
 
 from model.account import account
+from model.activity import activity
 from model.user import user
 
 class read_data_base:
@@ -14,6 +15,7 @@ class read_data_base:
     QUERY_USER_SELECT = "SELECT * FROM user"
     QUERY_USER_INSERT = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)"
     QUERY_ACTIVITY_INSERT = "INSERT INTO activity (title, description, date, hour, fk_user_id) VALUES (?, ?, ?, ?, ?)"
+    QUERY_ACTIVITIES_SELECT = "SELECT * FROM activity WHERE fk_user_id = ?"
 
     def __init__(self):
         self.conn = None
@@ -65,6 +67,19 @@ class read_data_base:
             new_user = user(result[1],result[2])
             record = account(result[0], result[3], new_user)
             accounts.append(record)
+            
+        self.close_connection()
+        
+    def read_activities(self, data_base, account_identifier, activities):
+        
+        self.open_connection(data_base)
+        cursor = self.conn.cursor()
+        cursor.execute(self.QUERY_ACTIVITIES_SELECT, (account_identifier,))
+        result_set = cursor.fetchall()
+        
+        for result in result_set:
+            record = activity(result[0],result[1], result[2], result[3], result[4], result[5])
+            activities.append(record)
             
         self.close_connection()
             

@@ -16,6 +16,7 @@ class gera_data_base:
 	def __init__(self):
 		self.data_base = data_base()
 		self.accounts = []
+		self.activities = []
 		
 	def get_user(self, identifier):
 		return self.get_account(identifier).get_user()
@@ -28,6 +29,9 @@ class gera_data_base:
 		
 	def get_accounts(self):
 		return self.accounts
+	
+	def get_activities(self):
+		return self.activities
 		
 	def authenticate_user(self, identifier, password):
 		account = self.get_account(identifier)
@@ -44,7 +48,9 @@ class gera_data_base:
 	
 	def read_accounts(self):
 		self.data_base.read_accounts(self.DATA_BASE[1], self.accounts)
-	
+		
+	def read_activities(self, account_identifier):
+		self.data_base.read_activities(self.DATA_BASE[1], account_identifier, self.activities)
 	
 		
 		

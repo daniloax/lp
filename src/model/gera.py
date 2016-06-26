@@ -99,7 +99,7 @@ class gera:
 		self.screen.display_message("\nPlease enter your account identifier:")
 		identifier = int(self.keypad.get_input())
 		self.screen.display_message("\nEnter your password:")
-		password = self.keypad.get_input()
+		password = "{}".format(self.keypad.get_input())
 		
 		self.user_authenticated = self.gera_data_base.authenticate_user(identifier, password)
 		
@@ -125,10 +125,10 @@ class gera:
 		new_user = user(name, email)
 		new_account = account(None, password, new_user)
 		
-		new_user_id = self.gera_data_base.create_account(new_account)
+		new_user_identifier = self.gera_data_base.create_account(new_account)
 		
 		self.screen.display_message("\nAccount registered successfully!")
-		self.screen.display_message("\nUse your account identifier \'{}\' to sign in!".format(new_user_id))
+		self.screen.display_message("\nUse your account identifier \'{}\' to sign in!".format(new_user_identifier))
 		
 	"""	
 	 " cadastra uma nova atividade no banco de dados
@@ -147,10 +147,10 @@ class gera:
 		
 		new_activity = activity(None, title, description, date, hour, self.current_account_identifier)
 		
-		new_activity_id = self.gera_data_base.create_activity(new_activity)
+		new_activity_identifier = self.gera_data_base.create_activity(new_activity)
 		
 		self.screen.display_message("\nActivity created successfully!")
-		self.screen.display_message("\nUse your activity identifier \'{}\' to manage it!".format(new_activity_id))
+		self.screen.display_message("\nUse your activity identifier \'{}\' to manage it!".format(new_activity_identifier))
 	
 	"""	
 	 " exibe o menu principal e retorna uma selecao de entrada
@@ -246,3 +246,17 @@ class gera:
 			elif activity_menu_selection == 6:
 				self.screen.display_message("\nReturning to main menu...")
 				menu_returned = True
+	
+	"""	
+	 " lista as atividades do usuario atual
+	 "
+	"""
+	def list_activities(self):
+		self.gera_data_base.read_activities(self.current_account_identifier)
+		print('\nactivities:\n')
+		for activity in self.gera_data_base.get_activities():
+			self.screen.display_message("  activity: {}".format(activity.get_title().encode('iso8859-1')))
+			self.screen.display_message("    identifier: {}".format(activity.get_identifier()))
+			self.screen.display_message("    date: {}".format(activity.get_date()))
+			self.screen.display_message("    hour: {}\n".format(activity.get_hour()))
+			
