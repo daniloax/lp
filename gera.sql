@@ -28,3 +28,6 @@ VALUES
 ("Danilo Fukuda", "danilo_fukuda@unb.br", 123),
 ("Felipe", "felipe@unb.br", 123),
 ("Danilo Alves", "danilo_alves@unb.br", 123)
+
+INSERT INTO activity (title, description, date, hour, fk_user_id)
+VALUES ("atividade1", "atividade1", "2016-06-26", "14:20", 1)
