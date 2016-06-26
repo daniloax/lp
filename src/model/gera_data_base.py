@@ -18,13 +18,19 @@ class gera_data_base:
 		self.accounts = []
 		self.activities = []
 		
-	def get_user(self, identifier):
-		return self.get_account(identifier).get_user()
+	def get_user(self, account_identifier):
+		return self.get_account(account_identifier).get_user()
 	
-	def get_account(self, identifier):
+	def get_account(self, account_identifier):
 		for current_account in self.accounts:
-			if (current_account.get_identifier() == identifier):
+			if (current_account.get_identifier() == account_identifier):
 				return current_account
+		return None
+	
+	def get_activity(self, activity_identifier):
+		for current_activity in self.activities:
+			if (current_activity.get_identifier() == activity_identifier):
+				return current_activity
 		return None
 		
 	def get_accounts(self):
@@ -33,8 +39,8 @@ class gera_data_base:
 	def get_activities(self):
 		return self.activities
 		
-	def authenticate_user(self, identifier, password):
-		account = self.get_account(identifier)
+	def authenticate_user(self, account_identifier, password):
+		account = self.get_account(account_identifier)
 		if account is not None:
 			return account.validate_password(password)
 		else:
@@ -51,7 +57,7 @@ class gera_data_base:
 		
 	def read_activities(self, account_identifier):
 		self.data_base.read_activities(self.DATA_BASE[1], account_identifier, self.activities)
-	
+			
 		
 		
 		

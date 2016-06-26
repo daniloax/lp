@@ -45,6 +45,7 @@ class gera:
 				
 			self.screen.display_message("\nHi, {}!".format(self.gera_data_base.get_user(self.current_account_identifier).get_name()))
 			
+			self.gera_data_base.read_activities(self.current_account_identifier)
 			self.perform_transactions()
 				
 			self.user_authenticated = False;
@@ -195,7 +196,6 @@ class gera:
 				break
 			
 			return user_type
-
 		
 	"""	
 	 " executa o menu principal e realiza transacoes
@@ -252,11 +252,23 @@ class gera:
 	 "
 	"""
 	def list_activities(self):
-		self.gera_data_base.read_activities(self.current_account_identifier)
 		print('\nactivities:\n')
 		for activity in self.gera_data_base.get_activities():
 			self.screen.display_message("  activity: {}".format(activity.get_title().encode('iso8859-1')))
 			self.screen.display_message("    identifier: {}".format(activity.get_identifier()))
 			self.screen.display_message("    date: {}".format(activity.get_date()))
 			self.screen.display_message("    hour: {}\n".format(activity.get_hour()))
-			
+	
+	"""	
+	 " visualiza atividade
+	 "
+	"""
+	def view_activity(self):
+		self.screen.display_message("\nPlease enter your activity identifier:")
+		activity_identifier = self.keypad.get_input()
+		activity = self.gera_data_base.get_activity(activity_identifier)
+		print('\ninfo:\n')
+		self.screen.display_message("  activity: {}".format(activity.get_title().encode('iso8859-1')))
+		self.screen.display_message("    description: {}".format(activity.get_description().encode('iso8859-1')))
+		self.screen.display_message("    date: {}".format(activity.get_date()))
+		self.screen.display_message("    hour: {}\n".format(activity.get_hour()))
