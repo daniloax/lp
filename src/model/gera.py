@@ -146,12 +146,14 @@ class gera:
 		self.screen.display_message("\nEnter your activity hour:")
 		hour = self.keypad.get_input()
 		
-		new_activity = activity(None, title, description, date, hour, self.current_account_identifier)
+		new_activity = activity(None, title, description, 1, date, hour, self.current_account_identifier)
 		
 		new_activity_identifier = self.gera_data_base.create_activity(new_activity)
 		
 		self.screen.display_message("\nActivity created successfully!")
 		self.screen.display_message("\nUse your activity identifier \'{}\' to manage it!".format(new_activity_identifier))
+		self.gera_data_base.reset_activities()
+		self.gera_data_base.read_activities(self.current_account_identifier)
 	
 	"""	
 	 " exibe o menu principal e retorna uma selecao de entrada
@@ -257,10 +259,11 @@ class gera:
 			self.screen.display_message("  activity: {}".format(activity.get_title().encode('iso8859-1')))
 			self.screen.display_message("    identifier: {}".format(activity.get_identifier()))
 			self.screen.display_message("    date: {}".format(activity.get_date()))
-			self.screen.display_message("    hour: {}\n".format(activity.get_hour()))
+			self.screen.display_message("    hour: {}".format(activity.get_hour()))
+			self.screen.display_message("    active: {}\n".format("true" if activity.get_active() == 1 else "false"))
 	
 	"""	
-	 " visualiza atividade
+	 " visualiza atividade selecionada
 	 "
 	"""
 	def view_activity(self):
@@ -272,3 +275,16 @@ class gera:
 		self.screen.display_message("    description: {}".format(activity.get_description().encode('iso8859-1')))
 		self.screen.display_message("    date: {}".format(activity.get_date()))
 		self.screen.display_message("    hour: {}\n".format(activity.get_hour()))
+		
+	"""	
+	 " desativa atividade selecionada
+	 "
+	"""
+	def close_activity(self):
+		self.screen.display_message("\nPlease enter your activity identifier:")
+		activity_identifier = self.keypad.get_input()
+		activity = self.gera_data_base.close_activity(activity_identifier)
+		self.screen.display_message("\nActivity closed successfully!")
+		self.gera_data_base.reset_activities()
+		self.gera_data_base.read_activities(self.current_account_identifier)
+		

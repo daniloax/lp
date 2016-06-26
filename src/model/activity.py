@@ -6,10 +6,11 @@ Created on 26 de jun de 2016
 
 class activity:
 
-    def __init__(self, identifier, title, description, date, hour, fk_user_id):
+    def __init__(self, identifier, title, description, active, date, hour, fk_user_id):
         self.identifier = identifier
         self.title = title
         self.description = description
+        self.active = active
         self.date = date
         self.hour = hour
         self.fk_user_id = fk_user_id
@@ -31,6 +32,12 @@ class activity:
     
     def set_description(self, description):
         self.description = description
+        
+    def get_active(self):
+        return self.active
+    
+    def set_active(self, active):
+        self.active = active
         
     def get_date(self):
         return self.date

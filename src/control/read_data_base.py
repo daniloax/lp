@@ -14,7 +14,8 @@ class read_data_base:
     
     QUERY_USER_SELECT = "SELECT * FROM user"
     QUERY_USER_INSERT = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)"
-    QUERY_ACTIVITY_INSERT = "INSERT INTO activity (title, description, date, hour, fk_user_id) VALUES (?, ?, ?, ?, ?)"
+    QUERY_ACTIVITY_CLOSE = "UPDATE activity SET active = 0 WHERE id = ?"
+    QUERY_ACTIVITY_INSERT = "INSERT INTO activity (title, description, active, date, hour, fk_user_id) VALUES (?, ?, ?, ?, ?, ?)"
     QUERY_ACTIVITIES_SELECT = "SELECT * FROM activity WHERE fk_user_id = ?"
 
     def __init__(self):
@@ -47,6 +48,7 @@ class read_data_base:
         cursor.execute(self.QUERY_ACTIVITY_INSERT,(
                        activity.get_title(),
                        activity.get_description(),
+                       activity.get_active(),
                        activity.get_date(),
                        activity.get_hour(),
                        activity.get_fk_user_id()))
@@ -55,6 +57,15 @@ class read_data_base:
         self.close_connection()
         
         return cursor.lastrowid
+    
+    def close_activity(self, data_base, activity_identifier):
+        self.open_connection(data_base)
+        cursor = self.conn.cursor()
+        cursor.execute(self.QUERY_ACTIVITY_CLOSE,(
+                       activity_identifier,))
+        
+        self.conn.commit()
+        self.close_connection()
         
     def read_accounts(self, data_base, accounts):
         
@@ -78,7 +89,7 @@ class read_data_base:
         result_set = cursor.fetchall()
         
         for result in result_set:
-            record = activity(result[0],result[1], result[2], result[3], result[4], result[5])
+            record = activity(result[0],result[1], result[2], result[6], result[3], result[4], result[5])
             activities.append(record)
             
         self.close_connection()

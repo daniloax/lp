@@ -38,6 +38,9 @@ class gera_data_base:
 	
 	def get_activities(self):
 		return self.activities
+	
+	def reset_activities(self):
+		self.activities = []
 		
 	def authenticate_user(self, account_identifier, password):
 		account = self.get_account(account_identifier)
@@ -51,6 +54,9 @@ class gera_data_base:
 	
 	def create_activity(self, activity):
 		return self.data_base.create_activity(self.DATA_BASE[1], activity)
+	
+	def close_activity(self, activity):
+		return self.data_base.close_activity(self.DATA_BASE[1], activity)
 	
 	def read_accounts(self):
 		self.data_base.read_accounts(self.DATA_BASE[1], self.accounts)
