@@ -99,7 +99,7 @@ class gera:
 		self.screen.display_message("\nPlease enter your account identifier:")
 		identifier = int(self.keypad.get_input())
 		self.screen.display_message("\nEnter your password:")
-		password = unicode(self.keypad.get_input())
+		password = self.keypad.get_input()
 		
 		self.user_authenticated = self.gera_data_base.authenticate_user(identifier, password)
 		
@@ -116,11 +116,11 @@ class gera:
 	def create_account(self):
 		
 		self.screen.display_message("\nPlease enter your name:")
-		name = unicode(self.keypad.get_input())
+		name = self.keypad.get_input()
 		self.screen.display_message("\nEnter your email:")
-		email = unicode(self.keypad.get_input())
+		email = self.keypad.get_input()
 		self.screen.display_message("\nEnter your password:")
-		password = unicode(self.keypad.get_input())
+		password = self.keypad.get_input()
 		
 		new_user = user(name, email)
 		new_account = account(None, password, new_user)
@@ -137,13 +137,13 @@ class gera:
 	def create_activity(self):
 		
 		self.screen.display_message("\nPlease enter your activity title:")
-		title = unicode(self.keypad.get_input())
+		title = self.keypad.get_input()
 		self.screen.display_message("\nEnter your activity description:")
-		description = unicode(self.keypad.get_input())
+		description = self.keypad.get_input()
 		self.screen.display_message("\nEnter your activity date:")
-		date = unicode(self.keypad.get_input())
+		date = self.keypad.get_input()
 		self.screen.display_message("\nEnter your activity hour:")
-		hour = unicode(self.keypad.get_input())
+		hour = self.keypad.get_input()
 		
 		new_activity = activity(None, title, description, date, hour, self.current_account_identifier)
 		
