@@ -1,14 +1,15 @@
 import sqlite3
+import alarme
 
-
+#alarme.Clock().set_alarm(21,6)
+#alarme.Clock().run()
 class Atividade:
-    def __init__(self, usuario, titulo, descricao, dataehora, conclusao):
+    def __init__(self, usuario, titulo, descricao, dataehora):
         self.usuario = usuario
         self.titulo = titulo
         self.descricao = descricao
         self.data = data
         self.hora = hora
-        self.conclusao = conclusao
         self.numero=numero
 
 def read(identification):
@@ -16,7 +17,7 @@ def read(identification):
             cursor = conn.cursor()
             #lendo os dados
             cursor.execute("""
-            SELECT id,titulo,descricao,data,hora,conclusao FROM atividades
+            SELECT id,titulo,descricao,ano,mes,dia,hora FROM atividades
             WHERE idusuario=?
             """, (identification,))
             for linha in cursor.fetchall():
@@ -30,21 +31,27 @@ def switch(logado,identification):
 			print("[1] = Criar atividade")
 			print("[2] = Editar atividade")
 			print("[3] = Apagar atividade")
-			opcao = input("[4] = Sair do menu\n")
+			print("[4] = Ver as horas")
+			opcao = input("[5] = Sair do menu\n")
 			if opcao == '1':
+				#alarme.ring_ring()
 				titulo = input("Digite o título da atividade: ")
 				descricao = input("Digite a descrição da atividade: ")
-				data = input("Digite a data da atividade: ")
+				ano = input("Digite o ano da atividade: ")
+				mes = input("Digite o mês da atividade: ")
+				dia = input("Digite o dia da atividade: ")
 				hora = input("Digite a hora da atividade: ")
-				conclusao = input("Digite a conclusao da atividade:")
-				lista = [(identification, titulo, descricao, data, hora, conclusao)]
+				minuto = input("Digite o minuto: ")
+				lista = [(identification, titulo, descricao, ano, mes, dia, hora, minuto)]
 
 				conn = sqlite3.connect('geraDB.db')
 				cursor = conn.cursor()
 				cursor.executemany("""
-				INSERT INTO atividades (idusuario,titulo,descricao,data,hora,conclusao)
-				VALUES (?,?,?,?,?,?)
+				INSERT INTO atividades (idusuario,titulo,descricao,ano,mes,dia,hora,minuto)
+				VALUES (?,?,?,?,?,?,?,?)
 				""", lista)
+
+				alarme.Clock().set_alarm(ano,mes,dia,hora,minuto)
 
 				conn.commit()
 				print('\nDados inseridos com sucesso.\n')
@@ -72,10 +79,12 @@ def switch(logado,identification):
 				else:
 					titulo = input("Digite o novo título da atividade: ")
 					descricao = input("Digite a nova descrição da atividade: ")
-					data = input("Digite a nova data da atividade: ")
+					ano = input("Digite o novo ano da atividade: ")
+					mes = input("Digite o novo mês da atividade: ")
+					dia = input("Digite o novo dia da atividade: ")
 					hora = input("Digite a nova hora da atividade: ")
-					conclusao = input("Digite a nova conclusao da atividade: ")
-					lista = [(numero, titulo, descricao, data, hora, conclusao)]
+					minuto = input("Digite o novo minuto: ")
+					lista = [(numero, titulo, descricao, ano, mes, dia, hora, minuto)]
 					print("\n")
 					print(lista)
 
@@ -85,9 +94,9 @@ def switch(logado,identification):
 
 					cursor.execute("""
 					UPDATE atividades
-					SET titulo=?,descricao=?,data=?,hora=?,conclusao=?
+					SET titulo=?,descricao=?,ano=?,mes=?,dia=?,hora=?,minuto=?
 					WHERE id=?
-					""",(titulo,descricao,data,hora,conclusao,numero))
+					""",(titulo,descricao,ano,mes,dia,hora,minuto,numero))
 
 					conn.commit()
 					print('Dados atualizados com sucesso.\n')
@@ -126,6 +135,8 @@ def switch(logado,identification):
 					conn.close()
 
 			elif opcao == '4':
+				alarme.Clock().run()
+			elif opcao == '5':
 				print("Saiu com sucesso!\n")
 				login()
 
@@ -186,8 +197,8 @@ def login():
 				login()
 			elif i == 1:
 				cursor.execute("""
-				SELECT senha FROM usuarios WHERE senha=?"""
-				, (password,))
+				SELECT senha FROM usuarios WHERE email=?"""
+				, (email,))
 
 				for test in cursor.fetchall():
 					if (password,) == test:
