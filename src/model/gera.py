@@ -6,10 +6,12 @@
 	author: daniloax
 """
 
-import string, sys
+import sys
 
+from model.account import account
 from model.gera_data_base import gera_data_base
 from model.keypad import keypad
+from model.user import user
 from model.screen import screen
 
 class gera:
@@ -61,7 +63,7 @@ class gera:
 			self.screen.display_message("[2] Sign up")
 			self.screen.display_message("[3] End of run")
 			self.screen.display_message( "\n? " )
-			user_type = self.keypad.get_input()
+			user_type = int(self.keypad.get_input())
 			
 			if user_type < 1 or user_type > 3:
 				break
@@ -80,7 +82,8 @@ class gera:
 			self.gera_data_base.read_accounts()
 
 		elif menu_option == 2:
-			self.screen.display_message("\nSIGN_UP")
+			self.create_account()
+			self.process_requests()
 		
 		elif menu_option == 3:
 			self.screen.display_message("\nExiting the system...")
@@ -93,9 +96,9 @@ class gera:
 	def authenticate_user(self):
 		
 		self.screen.display_message("\nPlease enter your account identifier:")
-		identifier = self.keypad.get_input()
+		identifier = int(self.keypad.get_input())
 		self.screen.display_message("\nEnter your password:")
-		password = self.keypad.get_input()
+		password = unicode(self.keypad.get_input())
 		
 		self.user_authenticated = self.gera_data_base.authenticate_user(identifier, password)
 		
@@ -104,6 +107,27 @@ class gera:
 			
 		else:
 			self.screen.display_message("\nInvalid account number or password. Please try again.")
+			
+	"""	
+	 " cadastra um novo usuario no banco de dados
+	 "
+	"""
+	def create_account(self):
+		
+		self.screen.display_message("\nPlease enter your name:")
+		name = unicode(self.keypad.get_input())
+		self.screen.display_message("\nEnter your email:")
+		email = unicode(self.keypad.get_input())
+		self.screen.display_message("\nEnter your password:")
+		password = unicode(self.keypad.get_input())
+		
+		new_user = user(name, email)
+		new_account = account(None, password, new_user)
+		
+		new_user_id = self.gera_data_base.create_account(new_account)
+		
+		self.screen.display_message("\nAccount registered successfully!")
+		self.screen.display_message("\nUse your identifier number \'{}\' to sign in!".format(new_user_id))
 	
 	"""	
 	 " exibe o menu principal e retorna uma selecao de entrada
@@ -114,14 +138,13 @@ class gera:
 		while True:
 			
 			self.screen.display_message("\nMain menu:")
-			self.screen.display_message("[1] Activity create ")
-			self.screen.display_message("[2] Alarm create")
-			self.screen.display_message("[3] Exit\n")
+			self.screen.display_message("[1] Activity")
+			self.screen.display_message("[2] Exit\n")
 			self.screen.display_message("Enter a choice: ")
 			
-			user_type = self.keypad.get_input()
+			user_type = int(self.keypad.get_input())
 			
-			if user_type < 1 or user_type > 3:
+			if user_type < 1 or user_type > 2:
 				break
 			
 			return user_type
@@ -143,9 +166,5 @@ class gera:
 				self.screen.display_message("\nMenu selection [{}]".format(main_menu_selection))
 	
 			elif main_menu_selection == 2:
-				self.screen.display_message("\nMenu selection [{}]".format(main_menu_selection))
-			
-			elif main_menu_selection == 3:
-				self.screen.display_message("\nGoodbye!")
+				self.screen.display_message("\nGoodbye {}!".format(self.gera_data_base.get_user(self.current_account_identifier).get_name()))
 				user_exited = True
-				sys.exit()

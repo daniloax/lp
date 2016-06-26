@@ -11,6 +11,8 @@ from control.data_base import data_base
 
 class gera_data_base:
 	
+	DATA_BASE = ["../../account.txt", "../../gera.db"]
+	
 	def __init__(self):
 		self.data_base = data_base()
 		self.accounts = []
@@ -35,6 +37,9 @@ class gera_data_base:
 			return False
 		
 	def read_accounts(self):
-		self.data_base.read_accounts("../../account.txt", self.accounts)
+		self.data_base.read_accounts(self.DATA_BASE[1], self.accounts)
+		
+	def create_account(self, account):
+		return self.data_base.create_account(self.DATA_BASE[1], account)
 		
 		

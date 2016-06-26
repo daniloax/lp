@@ -9,4 +9,4 @@
 
 class keypad:
 	def get_input(self):
-		return int(input())
+		return raw_input()

@@ -9,8 +9,6 @@
 
 from model.account import account
 from model.user import user
-from apt.package import Record
-
 
 class read_text_file:
 	def __init__(self):
