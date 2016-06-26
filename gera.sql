@@ -29,5 +29,24 @@ VALUES
 ("Felipe", "felipe@unb.br", 123),
 ("Danilo Alves", "danilo_alves@unb.br", 123)
 
-INSERT INTO activity (title, description, date, hour, fk_user_id)
-VALUES ("atividade1", "atividade1", "2016-06-26", "14:20", 1)
+INSERT INTO activity (title, description, date, hour, fk_user_id) VALUES 
+("Reunião", "Reunião de trabalho", "26/06/2016", "16:20", 1),
+("Aula", "Aula de francês", "26/06/2016", "17:20", 1),,
+("Academia", "Musculação", "26/06/2016", "18:20", 1),
+("Academia", "Natação", "26/06/2016", "19:20", 1),
+("Reunião", "Reunião de trabalho", "26/06/2016", "16:20", 2),
+("Aula", "Aula de francês", "26/06/2016", "17:20", 2),,
+("Academia", "Musculação", "26/06/2016", "18:20", 2),
+("Academia", "Natação", "26/06/2016", "19:20", 2),
+("Reunião", "Reunião de trabalho", "26/06/2016", "16:20", 3),
+("Aula", "Aula de francês", "26/06/2016", "17:20", 3),,
+("Academia", "Musculação", "26/06/2016", "18:20", 3),
+("Academia", "Natação", "26/06/2016", "19:20", 3),
+("Reunião", "Reunião de trabalho", "26/06/2016", "16:20", 4),
+("Aula", "Aula de francês", "26/06/2016", "17:20", 4),
+("Academia", "Musculação", "26/06/2016", "18:20", 4),
+("Academia", "Natação", "26/06/2016", "19:20", 4),
+("Reunião", "Reunião de trabalho", "26/06/2016", "16:20", 5),
+("Aula", "Aula de francês", "26/06/2016", "17:20", 5),,
+("Academia", "Musculação", "26/06/2016", "18:20", 5),
+("Academia", "Natação", "26/06/2016", "19:20", 5)
