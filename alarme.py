@@ -7,6 +7,7 @@ def ring_ring():
     now = datetime.datetime.now()
     conn = sqlite3.connect('geraDB.db')
     cursor = conn.cursor()
+
     cursor.execute("""SELECT titulo,descricao FROM atividades 
     WHERE ano=? AND mes=? AND dia=? AND hora=? AND minuto=?
     """, (now.year,now.month,now.day,now.hour,now.minute))
@@ -17,7 +18,11 @@ def ring_ring():
         print("\n")
         sys.stdout.write(test[1])
         print("\n")
-    
+
+    cursor.execute("""UPDATE atividades SET alarme=2 WHERE hora=? AND minuto=?
+    """, (now.hour,now.minute))
+    conn.commit()
+
     sys.stdout.flush()
 
 class Clock:
@@ -41,23 +46,22 @@ class Clock:
             sys.stdout.write("\r%02d:%02d:%02d %s" 
                 % (now.hour, now.minute, now.second, alarm_symbol))
             sys.stdout.flush()
-            print("\n")
+
             if stop == 0:
                 opcao = input("[S/N] = Manter? ")
                 if any(opcao == X for X in ("S", "s")):
                     stop = 1
-                elif any(opcao == Y for Y in ("N", "n")):
                     print("\n")
+                elif any(opcao == Y for Y in ("N", "n")):
                     break
                 else:
-                    print("Digite S (sim) ou N (não): ")
+                    print("\nDigite S (sim) ou N (não)!\n")
 
 
     def set_alarm(self, year, month, day, hour, minute):
         now = datetime.datetime.now()
-        print ("\nhora: ", now)
+        print ("hora: ", now)
         alarm = now.replace(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute))
-        #alarm = now.replace(hour=int(hour), minute=int(minute))
         print ("alarme: ", alarm)
         delta = int((alarm - now).total_seconds())
         print ("valor delta: ", delta)
