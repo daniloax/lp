@@ -1,7 +1,6 @@
 '''
 Created on 25 de jun de 2016
 
-@author: ska
 '''
 
 import sqlite3

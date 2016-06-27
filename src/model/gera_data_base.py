@@ -3,7 +3,6 @@
 	---------------------------------
 	version: 0.0.1
 	date: Jun 21, 2016
-	author: daniloax
 	
 """
 

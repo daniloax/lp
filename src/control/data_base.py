@@ -3,8 +3,6 @@
 	---------------------------------
 	version: 0.0.1
 	date: Jun 18, 2016
-	author: daniloax
-
 """
 
 from control.read_data_base import read_data_base
