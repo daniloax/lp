@@ -50,3 +50,9 @@ INSERT INTO activity (title, description, date, hour, fk_user_id) VALUES
 ("Aula", "Aula de francês", "26/06/2016", "17:20", 5),,
 ("Academia", "Musculação", "26/06/2016", "18:20", 5),
 ("Academia", "Natação", "26/06/2016", "19:20", 5)
+
+INSERT INTO alarm (reminder, interval, repeat, active, fk_activity_id) VALUES
+("2016-06", "00:30", 1, 1, 5),
+("2016-06", "01:00", 1, 0, 5),
+("2016-07", "02:00", 1, 1, 6),
+("2016-07", "01:00", 1, 0, 6)
